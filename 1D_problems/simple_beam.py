@@ -32,7 +32,7 @@ class PINN():
     def __init__(self, X, layers, u_bc, u_x_bc, E, I, F, L):
         
         self.x = torch.tensor(X["Domain"], requires_grad=True).float().to(device)
-        self.x_bc = torch.tensor(X["BC"]).float().to(device)
+        self.x_bc = torch.tensor(X["BC"], dtype=torch.float32, requires_grad=True).to(device)
         self.u_bc = torch.tensor(u_bc).float().to(device)
         self.u_x_bc = torch.tensor(u_x_bc).float().to(device)
 
@@ -47,7 +47,7 @@ class PINN():
         # Optimizer
         self.optimizer_lfbgs = torch.optim.LBFGS(
             self.dnn.parameters(),
-            lr=1.0,
+            lr=0.1,
             max_iter=50000,
             max_eval=50000,
             history_size=50,
@@ -68,9 +68,7 @@ class PINN():
         u_x = torch.autograd.grad(u, x, torch.ones_like(u), create_graph=True)[0]
         u_xx = torch.autograd.grad(u_x, x, torch.ones_like(u_x), create_graph=True)[0]
 
-        lhs = self.E * self.I * u_xx
-        rhs = self.F * (self.L - x)
-        residual = lhs - rhs
+        residual = self.E * self.I * u_xx - self.F * (self.L - x)
         return torch.mean(residual**2)
     
     def boundary_loss(self, x_bc, u_exact, u_x_exact):
@@ -93,11 +91,11 @@ class PINN():
     def train(self, epochs=1000):
         self.dnn.train()
         for epoch in range(epochs):
-            loss = self.pde_loss(self.x) + self.boundary_loss(self.x_bc, self.u_bc, self.u_x_bc)
+            loss = self.pde_loss(self.x) + 2*self.boundary_loss(self.x_bc, self.u_bc, self.u_x_bc)
 
-            self.optimizer_lfbgs.zero_grad()
+            self.optimizer_adam.zero_grad()
             loss.backward()
-            self.optimizer_lfbgs.step()
+            self.optimizer_adam.step()
 
             if epoch % 100 == 0:
                 print(f"Epoch {epoch}, Loss: {loss.item():.6f}")
@@ -113,22 +111,20 @@ class PINN():
         return u
     
 
-
-E = 1
-I = 1
-F = 1
-L = 1
+E = 1.0
+I = 1.0
+F = -1.0
+L = 1.0
 
 x = np.linspace(0, L, 1000)
-
 layers = [1, 20, 20, 20, 1]
 
 x_domain = np.random.choice(x, 100).reshape(-1, 1)
-x_bc = np.array([0, L]).reshape(-1, 1)
-u_bc = np.array([0])
-u_x_bc = np.array([0])
+x_bc = np.array([0.0])
+u_bc = np.array([0.0])
+u_x_bc = np.array([0.0])
 
 x_train = {"Domain": x_domain, "BC": x_bc}
 
 model = PINN(x_train, layers, u_bc, u_x_bc, E, I, F, L)
-model.train(1000)
+model.train(2000)
