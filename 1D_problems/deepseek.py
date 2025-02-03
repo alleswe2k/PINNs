@@ -1,117 +1,135 @@
 import torch
+import torch.nn as nn
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
+from collections import OrderedDict
+import csv
+import os
+import time
 
-# Define the neural network
-class BeamNet(torch.nn.Module):
-    def __init__(self):
-        super(BeamNet, self).__init__()
-        self.layers = torch.nn.Sequential(
-            torch.nn.Linear(1, 20),
-            torch.nn.Tanh(),
-            torch.nn.Linear(20, 20),
-            torch.nn.Tanh(),
-            torch.nn.Linear(20, 20),
-            torch.nn.Tanh(),
-            torch.nn.Linear(20, 1)
-        )
-    
+np.random.seed(1234)
+
+
+# CUDA support
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+    print("CUDA")
+else:
+    device = torch.device("cpu")
+    print("CPU")
+
+class DNN(nn.Module):
+    def __init__(self, layers):
+        super(DNN, self).__init__()
+        self.layers = nn.ModuleList()
+        for i in range(len(layers) - 1):
+            self.layers.append(nn.Linear(layers[i], layers[i+1]))
+        self.activation = nn.Tanh()
+
     def forward(self, x):
-        return self.layers(x)
+        for layer in self.layers[:-1]:
+            x = self.activation(layer(x))
+        return self.layers[-1](x)
 
-# Parameters
-L = 1.0    # Beam length
-P = 1.0    # Load at free end
-EI = 1.0   # Flexural rigidity
-model = BeamNet()
+class PINN():
+    def __init__(self, X, layers, lb, rb, q_c):
+        
+        self.x = torch.tensor(X, requires_grad=True).float().to(device)
+        self.q_c = torch.tensor(q_c).float().to(device)
 
-# Collocation points (interior)
-num_collocation = 200
-x_collocation = torch.rand((num_collocation, 1)) * L
-x_collocation.requires_grad = True
+        self.lb = lb
+        self.rb = rb
 
-# Boundary points (fixed and free ends)
-x_fixed = torch.zeros((1, 1))  # x=0
-x_free = L * torch.ones((1, 1))  # x=L
+        self.log_w_pde = nn.Parameter(torch.tensor(0.0, requires_grad=True))
+        self.log_w_bc = nn.Parameter(torch.tensor(0.0, requires_grad=True))
 
-# Optimizer
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+        # DNN
+        self.dnn = DNN(layers).to(device)
 
-# Training loop
-num_epochs = 5000
-loss_history = []
+        # Optimizer
+        self.optimizer_lbfgs = torch.optim.LBFGS(
+            self.dnn.parameters(),
+            lr=lbfgs_lr,
+            max_iter=50000,
+            max_eval=50000,
+            history_size=50,
+            tolerance_grad=1e-7,
+            tolerance_change=1.0 * np.finfo(float).eps,
+            line_search_fn="strong_wolfe"
+        )
 
-for epoch in range(num_epochs):
-    optimizer.zero_grad()
+        self.optimizer_adam = torch.optim.Adam(self.dnn.parameters(), lr=adam_lr)
+        self.iter = 0
+
+    def model_value(self, x):
+        u = self.dnn(x)
+        return u
     
-    # Compute boundary conditions at x=0
-    y_fixed = model(x_fixed)
-    dy_dx_fixed = torch.autograd.grad(y_fixed, x_fixed, 
-                                     create_graph=True, 
-                                     grad_outputs=torch.ones_like(y_fixed))[0]
-    loss_bc1 = torch.mean(y_fixed**2) + torch.mean(dy_dx_fixed**2)
-    
-    # Compute boundary conditions at x=L
-    x_free_in = x_free.clone().requires_grad_(True)
-    y_free = model(x_free_in)
-    dy_dx = torch.autograd.grad(y_free, x_free_in, 
-                               create_graph=True, 
-                               grad_outputs=torch.ones_like(y_free))[0]
-    d2y_dx2 = torch.autograd.grad(dy_dx, x_free_in, 
-                                 create_graph=True, 
-                                 grad_outputs=torch.ones_like(dy_dx))[0]
-    d3y_dx3 = torch.autograd.grad(d2y_dx2, x_free_in, 
-                                 create_graph=True, 
-                                 grad_outputs=torch.ones_like(d2y_dx2))[0]
-    
-    # Moment (EI*d2y/dx2) and Shear (EI*d3y/dx3)
-    loss_moment = (EI * d2y_dx2).pow(2).mean()  # Should be zero
-    loss_shear = (EI * d3y_dx3 - P).pow(2).mean()
-    loss_bc2 = loss_moment + loss_shear
-    
-    # Compute residual loss (Euler-Bernoulli equation: d4y/dx4 = 0)
-    y_res = model(x_collocation)
-    dy_dx_res = torch.autograd.grad(y_res, x_collocation, 
-                                   create_graph=True, 
-                                   grad_outputs=torch.ones_like(y_res))[0]
-    d2y_dx2_res = torch.autograd.grad(dy_dx_res, x_collocation, 
-                                     create_graph=True, 
-                                     grad_outputs=torch.ones_like(dy_dx_res))[0]
-    d3y_dx3_res = torch.autograd.grad(d2y_dx2_res, x_collocation, 
-                                     create_graph=True, 
-                                     grad_outputs=torch.ones_like(d2y_dx2_res))[0]
-    d4y_dx4_res = torch.autograd.grad(d3y_dx3_res, x_collocation, 
-                                     create_graph=True, 
-                                     grad_outputs=torch.ones_like(d3y_dx3_res))[0]
-    
-    residual_loss = (d4y_dx4_res.pow(2)).mean()
-    
-    # Total loss
-    total_loss = loss_bc1 + loss_bc2 + residual_loss
-    total_loss.backward()
-    optimizer.step()
-    
-    loss_history.append(total_loss.item())
-    if epoch % 500 == 0:
-        print(f'Epoch {epoch}, Loss: {total_loss.item()}')
+    def boundary_condition(self, cond, u, u_x, u_2x, u_3x):
+        bc_loss = 0
 
-# Plot training loss
-plt.plot(loss_history)
-plt.xlabel('Epoch')
-plt.ylabel('Loss')
-plt.title('Training Loss')
-plt.show()
+        match cond:
+            case 'pinned':
+                bc_loss += u**2 + u_2x**2
+            case 'fixed':
+                bc_loss += u**2 + u_x**2
+            case 'free':
+                bc_loss += u_2x**2 + u_3x**2
+            case 'roller':
+                bc_loss += u_x**2 + u_3x**2
 
-# Compare with analytical solution
-x_test = torch.linspace(0, L, 100).reshape(-1, 1)
-y_pred = model(x_test).detach().numpy()
-y_analytical = (P * x_test**2 / (6 * EI) * (3 * L - x_test)).numpy()
+        return bc_loss
+    
+    def loss_func(self, x):
+        u = self.model_value(x)
+        u_x = torch.autograd.grad(u, x, torch.ones_like(u), create_graph=True)[0]
+        u_2x = torch.autograd.grad(u_x, x, torch.ones_like(u_x), create_graph=True)[0]
+        u_3x = torch.autograd.grad(u_2x, x, torch.ones_like(u_2x), create_graph=True)[0]
+        u_4x = torch.autograd.grad(u_3x, x, torch.ones_like(u_3x), create_graph=True)[0]
 
-plt.figure()
-plt.plot(x_test, y_analytical, label='Analytical Solution', linestyle='--')
-plt.plot(x_test, y_pred, label='PINN Prediction')
-plt.xlabel('x')
-plt.ylabel('Deflection (y)')
-plt.legend()
-plt.title('Cantilever Beam Deflection')
-plt.show()
+        # BC
+        bc_loss = self.boundary_condition(self.lb, u[0], u_x[0], u_2x[0], u_3x[0])
+        bc_loss += self.boundary_condition(self.rb, u[-1], u_x[-1], u_2x[-1], u_3x[-1])
+
+        # PDE
+        residual = torch.mean((u_4x - self.q_c)**2)
+        return weight_pde * residual + weight_bc * bc_loss
+
+
+    def lbfgs_func(self):
+        loss = self.loss_func(self.x)
+
+        self.optimizer_lbfgs.zero_grad()
+        loss.backward()
+
+        self.iter += 1
+        if self.iter % 100 == 0:
+            print(f"Iter: {self.iter}, Loss: {'{:e}'.format(loss.item())}")
+        return loss
+    
+    def train(self, epochs=1000):
+        self.dnn.train()
+        for epoch in range(epochs):
+            loss = self.loss_func(self.x)
+
+            self.optimizer_adam.zero_grad()
+            loss.backward()
+            self.optimizer_adam.step()
+
+            if epoch % 200 == 0:
+                print(f"Epoch {epoch}, Loss: {'{:e}'.format(loss.item())}")
+
+        self.optimizer_lbfgs.step(self.lbfgs_func)
+
+    def predict(self, X, q_c, L, E, I):
+        x = torch.tensor(X, requires_grad=True).float().to(device)
+
+        self.dnn.eval()
+        u_c = self.model_value(x)
+        u_c = u_c.detach().cpu().numpy()
+        u = (q_c * L**4 / (E*I)) * u_c
+
+        final_loss = self.loss_func(self.x)
+        final_loss = final_loss.detach().cpu().numpy()
+        return u, final_loss[0]
