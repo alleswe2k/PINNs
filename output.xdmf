@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<Xdmf Version="3.0">
+    <Domain>
+        <Grid Name="Mesh" GridType="Uniform">
+            <Topology TopologyType="Polyvertex" NumberOfElements="9289"/>
+            <Geometry GeometryType="XY">
+                <DataItem Format="HDF" DataType="Float" Dimensions="9289 2">output.h5:/coordinates</DataItem>
+            </Geometry>
+            <Attribute Name="SMises" AttributeType="Scalar" Center="Node">
+                <DataItem Format="HDF" DataType="Float" Dimensions="9289">output.h5:/SMises</DataItem>
+            </Attribute>
+            <Attribute Name="S11" AttributeType="Scalar" Center="Node">
+                <DataItem Format="HDF" DataType="Float" Dimensions="9289">output.h5:/S11</DataItem>
+            </Attribute>
+            <Attribute Name="S22" AttributeType="Scalar" Center="Node">
+                <DataItem Format="HDF" DataType="Float" Dimensions="9289">output.h5:/S22</DataItem>
+            </Attribute>
+            <Attribute Name="S12" AttributeType="Scalar" Center="Node">
+                <DataItem Format="HDF" DataType="Float" Dimensions="9289">output.h5:/S12</DataItem>
+            </Attribute>
+        </Grid>
+    </Domain>
+</Xdmf>
