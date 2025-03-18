@@ -1,6 +1,6 @@
 
-lc = 0.1;
-lc_min = 0.005;
+lc = 0.04;
+lc_min = lc / 10;
 l = 2.0;
 h = 1.0;
 r = 0.1;
@@ -25,6 +25,12 @@ Circle(6) = {7, 5, 6};
 Curve Loop(7) = {1, 2, 3, 4, -5, -6};
 Plane Surface(8) = {7};
 
+Physical Curve("wall_left", 9) = {4};
+Physical Curve("free_bot", 10) = {1};
+Physical Curve("force_right", 11) = {2};
+Physical Curve("free_top", 12) = {3};
+Physical Curve("hole", 13) = {6, 5};
+
 Field[1] = Distance;
 Field[1].CurvesList = {5, 6};
 Field[1].Sampling = 100;
@@ -39,5 +45,3 @@ Field[2].DistMax = 0.5;
 Background Field = 2;
 
 Mesh 2;
-
-
