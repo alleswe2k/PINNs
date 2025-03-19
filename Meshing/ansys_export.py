@@ -2,30 +2,27 @@ import csv
 import os
 
 # Define output file path
-output_file = os.path.expanduser("~/Desktop/Ansys_Stress_Results.csv")  # Save to Desktop
+output_file = os.path.expanduser("~/Documents/Visual Studio Code/Python/Examensarbete/PINNs/Meshing/data/hole_middle_r10.csv")  # Save to Desktop
 
 # Get the current mechanical model
 model = ExtAPI.DataModel
 solution = model.Project.Model.Analyses[0].Solution
 
 eq_stress = solution.AddEquivalentStress()
-eq_stress.EvaluateAllResults()
 
 normal_x = solution.AddNormalStress()
-normal_x.EvaluateAllResults()
 
 normal_y = solution.AddNormalStress()	
 normal_y.NormalOrientation = NormalOrientationType.YAxis
 
 deform_x = solution.AddDirectionalDeformation()
-deform_x.EvaluateAllResults()
 
 deform_y = solution.AddDirectionalDeformation()
 deform_y.NormalOrientation = NormalOrientationType.YAxis
-deform_y.EvaluateAllResults()
 
 shear = solution.AddShearStress()
-shear.EvaluateAllResults()
+
+solution.EvaluateAllResults()
 
 nodes = eq_stress.PlotData["Node"]
 eq_stress_data = eq_stress.PlotData["Values"]

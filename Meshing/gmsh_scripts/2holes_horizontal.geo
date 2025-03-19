@@ -1,9 +1,13 @@
 
 lc = 0.04;
 lc_min = lc / 10;
+
 l = 2.0;
 h = 1.0;
 r = 0.1;
+
+hole1_x = l/4;
+hole1_y = h/2;
 
 Point(1) = {0, 0, 0, lc};
 Point(2) = {l, 0, 0, lc};
@@ -15,9 +19,9 @@ Line(2) = {2, 3};
 Line(3) = {3, 4};
 Line(4) = {4, 1};
 
-Point(5) = {l/2, h/2, 0, lc_min};
-Point(6) = {l/2 - r, h/2, 0, lc_min};
-Point(7) = {l/2 + r, h/2, 0, lc_min};
+Point(5) = {hole1_x, hole1_y, 0, lc_min};
+Point(6) = {hole1_x - r, hole1_y, 0, lc_min};
+Point(7) = {hole1_x + r, hole1_y, 0, lc_min};
 
 Circle(5) = {6, 5, 7};
 Circle(6) = {7, 5, 6};
@@ -29,7 +33,7 @@ Physical Curve("wall_left", 9) = {4};
 Physical Curve("free_bot", 10) = {1};
 Physical Curve("force_right", 11) = {2};
 Physical Curve("free_top", 12) = {3};
-Physical Curve("hole", 13) = {6, 5};
+Physical Curve("hole1", 13) = {6, 5};
 
 Field[1] = Distance;
 Field[1].CurvesList = {5, 6};
