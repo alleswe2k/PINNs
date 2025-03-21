@@ -16,8 +16,6 @@ Point(2) = {l, 0, 0};
 Point(3) = {l, h, 0};
 Point(4) = {0, h, 0};
 
-Point(14) = {0, h/2, 0};
-
 Line(1) = {1, 2};
 Line(2) = {2, 3};
 Line(3) = {3, 4};
@@ -35,7 +33,6 @@ Physical Curve("free_bot", 10) = {1};
 Physical Curve("force_right", 11) = {2};
 Physical Curve("free_top", 12) = {3};
 Physical Curve("hole1", 13) = {5};
-Physical Point("wall_center", 14) = {14};
 
 Field[1] = Distance;
 Field[1].CurvesList = {5};

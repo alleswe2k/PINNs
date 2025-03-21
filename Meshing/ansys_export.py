@@ -2,7 +2,8 @@ import csv
 import os
 
 # Define output file path
-output_file = os.path.expanduser("~/Documents/Visual Studio Code/Python/Examensarbete/PINNs/Meshing/data/hole_middle_r10.csv")  # Save to Desktop
+file_name = "test_data2.csv"
+output_file = os.path.expanduser("~/Documents/Visual Studio Code/Python/Examensarbete/PINNs/Meshing/data/" + file_name)  # Save to Desktop
 
 # Get the current mechanical model
 model = ExtAPI.DataModel

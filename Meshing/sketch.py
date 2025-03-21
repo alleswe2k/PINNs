@@ -1,165 +1,137 @@
 # Python Script, API Version = V251
 
 # Set Sketch Plane
-selection = DatumPlane1
+selection = Axis1
 result = ViewHelper.SetSketchPlane(selection, Info1)
 # EndBlock
 
+
+
+# Set Sketch Plane
+sectionPlane = Plane.PlaneXY
+result = ViewHelper.SetSketchPlane(sectionPlane, Info7)
+# EndBlock
+
 # Sketch Rectangle
-point1 = Point2D.Create(MM(0),MM(0))
-point2 = Point2D.Create(MM(1144),MM(0))
-point3 = Point2D.Create(MM(1144),MM(738))
+point1 = Point2D.Create(M(0),M(0))
+point2 = Point2D.Create(M(0.531),M(0))
+point3 = Point2D.Create(M(0.531),M(0.146))
 result = SketchRectangle.Create(point1, point2, point3)
 
-baseSel = SelectionPoint.Create(CurvePoint1)
-targetSel = SelectionPoint.Create(DatumPoint1)
+baseSel = SelectionPoint.Create(CurvePoint15)
+targetSel = SelectionPoint.Create(DatumLine3)
 
 result = Constraint.CreateCoincident(baseSel, targetSel)
 
-baseSel = SelectionPoint.Create(CurvePoint2)
-targetSel = SelectionPoint.Create(DatumPoint1)
+baseSel = SelectionPoint.Create(CurvePoint16)
+targetSel = SelectionPoint.Create(DatumLine3)
 
 result = Constraint.CreateCoincident(baseSel, targetSel)
 
-baseSel = SelectionPoint.Create(CurvePoint3)
-targetSel = SelectionPoint.Create(DatumLine1)
+baseSel = SelectionPoint.Create(CurvePoint17)
+targetSel = SelectionPoint.Create(DatumLine3)
 
 result = Constraint.CreateCoincident(baseSel, targetSel)
 
-baseSel = SelectionPoint.Create(CurvePoint4)
-targetSel = SelectionPoint.Create(DatumLine1)
+baseSel = SelectionPoint.Create(CurvePoint18)
+targetSel = SelectionPoint.Create(DatumLine3)
 
 result = Constraint.CreateCoincident(baseSel, targetSel)
 
-baseSel = SelectionPoint.Create(CurvePoint5)
-targetSel = SelectionPoint.Create(DatumLine2)
+baseSel = SelectionPoint.Create(CurvePoint15)
+targetSel = SelectionPoint.Create(DatumLine4)
 
 result = Constraint.CreateCoincident(baseSel, targetSel)
 
-baseSel = SelectionPoint.Create(CurvePoint6)
-targetSel = SelectionPoint.Create(DatumLine2)
+baseSel = SelectionPoint.Create(CurvePoint19)
+targetSel = SelectionPoint.Create(DatumLine4)
+
+result = Constraint.CreateCoincident(baseSel, targetSel)
+
+baseSel = SelectionPoint.Create(CurvePoint20)
+targetSel = SelectionPoint.Create(DatumLine4)
+
+result = Constraint.CreateCoincident(baseSel, targetSel)
+
+baseSel = SelectionPoint.Create(CurvePoint18)
+targetSel = SelectionPoint.Create(DatumLine4)
 
 result = Constraint.CreateCoincident(baseSel, targetSel)
 # EndBlock
 
 # 
 # Create Length Dimension
-dimTarget = Curve6
+dimTarget = Curve9
 alignment = DimensionAlignment.Aligned
 result = Dimension.CreateLength(dimTarget, alignment)
 # EndBlock
 
 # Edit dimension
-selDimension = SketchDimension1
-newValue = MM(2000)
+selDimension = SketchDimension7
+newValue = M(2)
 result = Dimension.Modify(selDimension, newValue)
 # EndBlock
 
 # 
 # Create Length Dimension
-dimTarget = Curve7
+dimTarget = Curve10
 alignment = DimensionAlignment.Aligned
 result = Dimension.CreateLength(dimTarget, alignment)
 # EndBlock
 
 # Edit dimension
-selDimension = SketchDimension2
-newValue = MM(1000)
+selDimension = SketchDimension8
+newValue = M(1)
 result = Dimension.Modify(selDimension, newValue)
 # EndBlock
 
 # Sketch Line
-start = Point2D.Create(MM(1000), MM(0))
-end = Point2D.Create(MM(1000), MM(1000))
+start = Point2D.Create(M(1), M(1))
+end = Point2D.Create(M(1), M(0))
 result = SketchLine.Create(start, end)
 
-baseSel = CurvePoint7
-targetSel = Curve8
+baseSel = CurvePoint21
+targetSel = Curve9
 result = Constraint.CreateMidpoint(baseSel, targetSel)
 
-baseSel = SelectionPoint.Create(Curve9)
-targetSel = SelectionPoint.Create(Curve8)
+baseSel = SelectionPoint.Create(Curve11)
+targetSel = SelectionPoint.Create(Curve9)
 
 result = Constraint.CreatePerpendicular(baseSel, targetSel)
 
-baseSel = CurvePoint8
-targetSel = Curve6
+baseSel = CurvePoint22
+targetSel = Curve12
 result = Constraint.CreateMidpoint(baseSel, targetSel)
 
-baseSel = SelectionPoint.Create(Curve9)
-targetSel = SelectionPoint.Create(Curve6)
+baseSel = SelectionPoint.Create(Curve11)
+targetSel = SelectionPoint.Create(Curve12)
 
 result = Constraint.CreatePerpendicular(baseSel, targetSel)
 # EndBlock
 
 # Sketch Circle
-origin = Point2D.Create(MM(1000), MM(500))
-result = SketchCircle.Create(origin, MM(100))
+origin = Point2D.Create(M(1), M(0.5))
+result = SketchCircle.Create(origin, M(0.140064270961584))
 # EndBlock
 
 # 
 # Create Diameter Dimension
-dimTarget = Curve10
+dimTarget = Curve13
 result = Dimension.CreateDiameter(dimTarget)
 # EndBlock
 
+# Edit dimension
+selDimension = SketchDimension9
+newValue = M(0.1)
+result = Dimension.Modify(selDimension, newValue)
+# EndBlock
 
 # Delete Selection
-selection = Curve9
+selection = Curve11
 result = Delete.Execute(selection)
 # EndBlock
 
-# 
-selection = Selection.Empty()
-secondarySelection = Selection.Empty()
-options = FillOptions()
-result = Fill.Execute(selection, secondarySelection, options, FillMode.Layout, Info2)
-# EndBlock
-
 # Solidify Sketch
 mode = InteractionMode.Solid
-result = ViewHelper.SetViewMode(mode, Info3)
-# EndBlock
-
-# Set Sketch Plane
-selection = Face1
-result = ViewHelper.SetSketchPlane(selection, Info4)
-# EndBlock
-
-# Solidify Sketch
-mode = InteractionMode.Solid
-result = ViewHelper.SetViewMode(mode, Info5)
-# EndBlock
-
-# Create Datum Plane
-selection = Face1
-result = DatumPlaneCreator.Create(selection, False, Info6)
-# EndBlock
-
-# Rotate About X Handle
-selection = DatumPlane2
-axis = Move.GetAxis(selection, HandleAxis.X)
-options = MoveOptions()
-result = Move.Rotate(selection, axis, DEG(90), options, Info7)
-# EndBlock
-
-# Split Faces
-options = SplitFaceOptions()
-selection = Face1
-cutter = DatumPlane2
-result = SplitFace.ByCutter(selection, cutter, options, Info8)
-# EndBlock
-
-# Rotate About Y Handle
-selection = DatumPlane2
-axis = Move.GetAxis(selection, HandleAxis.Y)
-options = MoveOptions()
-result = Move.Rotate(selection, axis, DEG(90), options, Info9)
-# EndBlock
-
-# Split Faces
-options = SplitFaceOptions()
-selection = FaceSelection.Create(Face2, Face3)
-cutter = DatumPlane2
-result = SplitFace.ByCutter(selection, cutter, options, Info10)
+result = ViewHelper.SetViewMode(mode, Info8)
 # EndBlock
