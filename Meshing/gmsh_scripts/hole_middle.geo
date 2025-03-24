@@ -1,6 +1,6 @@
 SetFactory("OpenCASCADE");
 
-lc = 0.05;
+lc = 0.02;
 lc_min = lc / 20;
 distance_mesh = 0.5;
 
