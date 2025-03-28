@@ -1,12 +1,12 @@
 SetFactory("OpenCASCADE");
 
-lc = 0.02;
+lc = 0.06;
 lc_min = lc / 20;
 distance_mesh = 0.5;
 
 l = 2.0;
 h = 1.0;
-r = 0.1;
+r = 0.13;
 
 hole1_x = l/2;
 hole1_y = h/2;

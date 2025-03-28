@@ -1,13 +1,15 @@
+SetFactory("OpenCASCADE");
 
-lc = 0.04;
+lc = 0.05;
 lc_min = lc / 20;
+distance_mesh = 0.5;
 
 l = 2.0;
 h = 1.0;
-r = 0.1;
+r = 0.10;
 
-distance_x = 1.0;
-distance_y = 0.3;
+distance_x = 1.2;
+distance_y = 0.35;
 hole1_x = l - distance_x;
 hole1_y = h - distance_y;
 
@@ -21,15 +23,12 @@ Line(2) = {2, 3};
 Line(3) = {3, 4};
 Line(4) = {4, 1};
 
-Point(5) = {hole1_x, hole1_y, 0, lc_min};
-Point(6) = {hole1_x - r, hole1_y, 0, lc_min};
-Point(7) = {hole1_x + r, hole1_y, 0, lc_min};
+Circle(5) = {hole1_x, hole1_y, 0, r};
 
-Circle(5) = {6, 5, 7};
-Circle(6) = {7, 5, 6};
+Curve Loop(6) = {5};
+Curve Loop(7) = {1, 2, 3, 4};
 
-Curve Loop(7) = {1, 2, 3, 4, -5, -6};
-Plane Surface(8) = {7};
+Plane Surface(8) = {7, -6};
 
 Physical Curve("wall_left", 9) = {4};
 Physical Curve("free_bot", 10) = {1};
