@@ -2,7 +2,7 @@ import csv
 import os
 
 # Define output file path
-file_name = "hole_middle_r13_al.csv"
+file_name = "2holes_horizontal_r15_al.csv"
 output_file = os.path.expanduser("~/Documents/Visual Studio Code/Python/Examensarbete/PINNs/Meshing/data/" + file_name)  # Save to Desktop
 
 # Get the current mechanical model
