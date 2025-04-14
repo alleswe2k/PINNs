@@ -8,7 +8,7 @@ l = 2.0;
 h = 1.0;
 r = 0.10;
 
-distance_x = 1.2;
+distance_x = 1.0;
 distance_y = 0.35;
 hole1_x = l - distance_x;
 hole1_y = h - distance_y;
