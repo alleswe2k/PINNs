@@ -8,10 +8,10 @@ l = 2.0;
 h = 1.0;
 r = 0.10;
 
-distance_x = 1.0;
-distance_y = 0.35;
-hole1_x = l - distance_x;
-hole1_y = h - distance_y;
+offcenter_x = 0.0;
+offcenter_y = 0.1;
+hole1_x = l/2 + offcenter_x;
+hole1_y = h/2 + offcenter_y;
 
 Point(1) = {0, 0, 0, lc};
 Point(2) = {l, 0, 0, lc};
