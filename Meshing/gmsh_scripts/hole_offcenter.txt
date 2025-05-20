@@ -1,0 +1,102 @@
+-------------------------------------------------------
+Version       : 4.13.1
+License       : GNU General Public License
+Build OS      : Windows64
+Build date    : 20240524
+Build host    : gmsh.info
+Build options : 64Bit ALGLIB[contrib] ANN[contrib] Bamg Blas[petsc] Blossom Cgns DIntegration DomHex Eigen[contrib] Fltk Gmm[contrib] Hxt Jpeg Kbipack Lapack[petsc] MathEx[contrib] Med Mesh Metis[contrib] Mmg Mpeg Netgen Nii2mesh NoSocklenT ONELAB ONELABMetamodel OpenCASCADE OpenCASCADE-CAF OpenGL OpenMP OptHom PETSc Parser Plugins Png Post QuadMeshingTools QuadTri Solver TetGen/BR TinyXML2[contrib] Untangle Voro++[contrib] WinslowUntangler Zlib
+FLTK version  : 1.4.0
+PETSc version : 3.15.0 (real arithmtic)
+OCC version   : 7.7.2
+MED version   : 4.1.0
+Packaged by   : nt authority system
+Web site      : https://gmsh.info
+Issue tracker : https://gitlab.onelab.info/gmsh/gmsh/issues
+-------------------------------------------------------
+Info    : Running 'C:\Users\alexa\Documents\Examensarbete\gmsh-4.13.1-Windows64\gmsh.exe' [Gmsh 4.13.1, 1 node, max. 1 thread]
+Info    : Started on Tue May 20 11:48:36 2025
+Info    : Reading 'C:\Users\alexa\Documents\Visual Studio Code\Python\Examensarbete\PINNs\Meshing\gmsh_scripts\hole_offcenter.geo'...
+Warning : Skipping unknown curve 6 in physical curve 13
+Warning : Unknown curve 6
+Info    : Meshing 1D...
+Info    : Meshing curve 1 (Line)
+Info    : Meshing curve 2 (Line)
+Info    : Meshing curve 3 (Line)
+Info    : Meshing curve 4 (Line)
+Info    : Meshing curve 5 (Circle)
+Info    : Done meshing 1D (Wall 0.0424199s, CPU 0.015625s)
+Info    : Meshing 2D...
+Info    : Meshing surface 8 (Plane, Frontal-Delaunay)
+Info    : Done meshing 2D (Wall 0.266763s, CPU 0.265625s)
+Info    : 5537 nodes 11079 elements
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     1 warning
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+Warning : Skipping unknown curve 6 in physical curve 13
+Info    : Done reading 'C:\Users\alexa\Documents\Visual Studio Code\Python\Examensarbete\PINNs\Meshing\gmsh_scripts\hole_offcenter.geo'
+Info    : Reading 'C:\Users\alexa\Documents\Visual Studio Code\Python\Examensarbete\PINNs\Meshing\gmsh_scripts\hole_offcenter.geo'...
+Warning : Unknown curve 6
+Info    : Meshing 1D...
+Info    : Meshing curve 1 (Line)
+Info    : Meshing curve 2 (Line)
+Info    : Meshing curve 3 (Line)
+Info    : Meshing curve 4 (Line)
+Info    : Meshing curve 5 (Circle)
+Info    : Done meshing 1D (Wall 0.0448987s, CPU 0.046875s)
+Info    : Meshing 2D...
+Info    : Meshing surface 8 (Plane, Frontal-Delaunay)
+Info    : Done meshing 2D (Wall 0.28454s, CPU 0.28125s)
+Info    : 5537 nodes 11079 elements
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     1 warning
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+Info    : Done reading 'C:\Users\alexa\Documents\Visual Studio Code\Python\Examensarbete\PINNs\Meshing\gmsh_scripts\hole_offcenter.geo'
+Info    : Meshing 2D...
+Info    : Meshing surface 8 (Plane, Frontal-Delaunay)
+Info    : Done meshing 2D (Wall 0.258051s, CPU 0.21875s)
+Info    : 5537 nodes 11079 elements
+Info    : Meshing order 2 (curvilinear on)...
+Info    : Meshing curve 1 order 2
+Info    : Meshing curve 2 order 2
+Info    : Meshing curve 3 order 2
+Info    : Meshing curve 4 order 2
+Info    : Meshing curve 5 order 2
+Info    : Meshing surface 8 order 2
+Info    : Surface mesh: worst distortion = 0.987185 (0 elements in ]0, 0.2]); worst gamma = 0.667106
+Info    : Done meshing order 2 (Wall 0.039278s, CPU 0.03125s)
+Info    : Reading 'C:\Users\alexa\Documents\Visual Studio Code\Python\Examensarbete\PINNs\Meshing\gmsh_scripts\hole_offcenter.geo'...
+Warning : Unknown curve 6
+Info    : Meshing 1D...
+Info    : Meshing curve 1 (Line)
+Info    : Meshing curve 2 (Line)
+Info    : Meshing curve 3 (Line)
+Info    : Meshing curve 4 (Line)
+Info    : Meshing curve 5 (Circle)
+Info    : Done meshing 1D (Wall 0.0419171s, CPU 0.03125s)
+Info    : Meshing 2D...
+Info    : Meshing surface 8 (Plane, Frontal-Delaunay)
+Info    : Done meshing 2D (Wall 0.289001s, CPU 0.28125s)
+Info    : Meshing order 2 (curvilinear on)...
+Info    : Meshing curve 1 order 2
+Info    : Meshing curve 2 order 2
+Info    : Meshing curve 3 order 2
+Info    : Meshing curve 4 order 2
+Info    : Meshing curve 5 order 2
+Info    : Meshing surface 8 order 2
+Info    : Surface mesh: worst distortion = 0.987185 (0 elements in ]0, 0.2]); worst gamma = 0.667106
+Info    : Done meshing order 2 (Wall 0.0489726s, CPU 0.046875s)
+Info    : 21783 nodes 11079 elements
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     1 warning
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+Info    : Done reading 'C:\Users\alexa\Documents\Visual Studio Code\Python\Examensarbete\PINNs\Meshing\gmsh_scripts\hole_offcenter.geo'
+Info    : Writing 'C:\Users\alexa\Documents\Visual Studio Code\Python\Examensarbete\PINNs\Meshing\gmsh_scripts\hole_offcenter.txt'...

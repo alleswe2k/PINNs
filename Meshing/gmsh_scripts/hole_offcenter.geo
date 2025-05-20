@@ -34,10 +34,10 @@ Physical Curve("wall_left", 9) = {4};
 Physical Curve("free_bot", 10) = {1};
 Physical Curve("force_right", 11) = {2};
 Physical Curve("free_top", 12) = {3};
-Physical Curve("hole1", 13) = {6, 5};
+Physical Curve("hole1", 13) = {5};
 
 Field[1] = Distance;
-Field[1].CurvesList = {5, 6};
+Field[1].CurvesList = {5};
 Field[1].Sampling = 100;
 
 Field[2] = Threshold;

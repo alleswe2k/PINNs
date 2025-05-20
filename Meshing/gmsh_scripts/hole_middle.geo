@@ -6,7 +6,7 @@ distance_mesh = 0.5;
 
 l = 2.0;
 h = 1.0;
-r = 0.13;
+r = 0.10;
 
 hole1_x = l/2;
 hole1_y = h/2;
@@ -46,6 +46,7 @@ Field[2].DistMin = 0.0;
 Field[2].DistMax = distance_mesh;
 
 Background Field = 2;
+Mesh.ElementOrder = 2;
 
 Mesh 2;
 
