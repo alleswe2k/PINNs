@@ -1,4 +1,4 @@
-from pinn import DNN
+from pinn_class import DNN
 import torch
 import numpy as np
 
@@ -10,6 +10,7 @@ import os
 layers = [1] + 3*[20] + [2]
 model = DNN(layers)
 
+# For importing the model file
 dirname = os.path.dirname(__file__)
 location = os.path.join(dirname, "models/")
 model_parameters = location + "fixed_free_constant.pth"

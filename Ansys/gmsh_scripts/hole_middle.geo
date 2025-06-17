@@ -6,7 +6,7 @@ distance_mesh = 0.5;
 
 l = 2.0;
 h = 1.0;
-r = 0.15;
+r = 0.10;
 
 hole1_x = l/2;
 hole1_y = h/2;

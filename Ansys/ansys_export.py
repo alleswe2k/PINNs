@@ -38,7 +38,7 @@ shear_data = shear.PlotData["Values"]
 # Write results to CSV
 with open(output_file, "wb") as file:
     writer = csv.writer(file)
-    writer.writerow(["Node ID", "Equivalent Stress", "Stress X", "Stress Y", "Deformation X", "Deformation Y", "Shear"])  # Header
+    writer.writerow(["Node ID", "Von Mises Stress", "Stress X", "Stress Y", "Displacement X", "Displacement Y", "Shear"])  # Header
     
     for i in range(0, len(nodes), 2):
         writer.writerow([nodes[i], eq_stress_data[i], normal_x_data[i], normal_y_data[i], deform_x_data[i], deform_y_data[i], shear_data[i]])
