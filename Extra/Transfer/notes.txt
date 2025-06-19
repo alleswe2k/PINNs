@@ -1,3 +1,0 @@
-Pure lbfgs: ca 17000 epochs, 23 min
-Pure Adam: 20000 epochs, 11 min L2: 0.15373899
-Both: 19800 epochs, 19 min, L2: 0.043572336

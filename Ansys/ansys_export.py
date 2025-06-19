@@ -3,7 +3,8 @@ import os
 
 # Define output file path
 file_name = "2hole_horizontal_r10.csv"
-output_file = os.path.expanduser("~/Documents/Visual Studio Code/Python/Examensarbete/PINNs/Ansys/data/" + file_name)
+store_folder = "Your folder name" # Pick the location of the folder
+output_file = os.path.join(store_folder, file_name)
 
 # Get the current mechanical model
 model = ExtAPI.DataModel
