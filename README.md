@@ -5,7 +5,7 @@ Evaluating Physics-Informed Neural Networks for Mesh-Free Structural Analysis
 # Reference paper
 This repo includes the implementation of physics-informed neural networks in paper:
 
-[Evaluating Physics-Informed Neural Networks for Mesh-Free Structural Analysis] (https://uu.diva-portal.org/smash/record.jsf?dswid=-3642&pid=diva2%3A1972440&c=2&searchType=SIMPLE&language=sv&query=alexander+sundl%C3%B6f&af=%5B%5D&aq=%5B%5B%5D%5D&aq2=%5B%5B%5D%5D&aqe=%5B%5D&noOfRows=50&sortOrder=author_sort_asc&sortOrder2=title_sort_asc&onlyFullText=false&sf=all)
+[Evaluating Physics-Informed Neural Networks for Mesh-Free Structural Analysis](https://uu.diva-portal.org/smash/record.jsf?dswid=-3642&pid=diva2%3A1972440&c=2&searchType=SIMPLE&language=sv&query=alexander+sundl%C3%B6f&af=%5B%5D&aq=%5B%5B%5D%5D&aq2=%5B%5B%5D%5D&aqe=%5B%5D&noOfRows=50&sortOrder=author_sort_asc&sortOrder2=title_sort_asc&onlyFullText=false&sf=all)
 
 ## Setup Instructions
 
